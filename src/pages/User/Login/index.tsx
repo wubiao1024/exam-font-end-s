@@ -1,12 +1,16 @@
+import UserApi from '@/api/userApi';
 import { Footer } from '@/components';
-import { login } from '@/services/ant-design-pro/api';
+import { ROlE } from '@/pages/User/Login/const';
+import { useRequest } from '@@/plugin-request';
 import { LockOutlined, UserOutlined } from '@ant-design/icons';
 import { LoginForm, ProFormCheckbox, ProFormText } from '@ant-design/pro-components';
-import { Helmet, history, useModel } from '@umijs/max';
-import { Alert, Tabs, message } from 'antd';
+import { Helmet, history } from '@umijs/max';
+import { Radio, message } from 'antd';
 import { createStyles } from 'antd-style';
 import React, { useState } from 'react';
 import { flushSync } from 'react-dom';
+import { useModel } from 'umi';
+import style from './index.module.less';
 const useStyles = createStyles(({ token }) => {
   return {
     action: {
@@ -31,7 +35,7 @@ const useStyles = createStyles(({ token }) => {
     },
   };
 });
-const LoginMessage: React.FC<{
+/*const LoginMessage: React.FC<{
   content: string;
 }> = ({ content }) => {
   return (
@@ -44,15 +48,16 @@ const LoginMessage: React.FC<{
       showIcon
     />
   );
-};
+};*/
 const Login: React.FC = () => {
-  const [userLoginState, setUserLoginState] = useState<API.LoginResult>({});
-  const [type, setType] = useState<string>('account');
   const { initialState, setInitialState } = useModel('@@initialState');
+  const { setUserInfo } = useModel('userInfo');
+
   const { styles } = useStyles();
   const fetchUserInfo = async () => {
     const userInfo = await initialState?.fetchUserInfo?.();
     if (userInfo) {
+      setUserInfo(userInfo as any);
       flushSync(() => {
         setInitialState((s) => ({
           ...s,
@@ -61,31 +66,24 @@ const Login: React.FC = () => {
       });
     }
   };
-  const handleSubmit = async (values: API.LoginParams) => {
-    try {
-      // 登录
-      const msg = await login({
-        ...values,
-        type,
-      });
-      if (msg.status === 'ok') {
-        const defaultLoginSuccessMessage = '登录成功！';
-        message.success(defaultLoginSuccessMessage);
-        await fetchUserInfo();
-        const urlParams = new URL(window.location.href).searchParams;
-        history.push(urlParams.get('redirect') || '/');
-        return;
+
+  const { data: res, run: handleSubmit } = useRequest(UserApi.login, {
+    manual: true,
+    async onSuccess(data) {
+      if (!!data.token) {
+        message.success('登录成功');
+        // 将token 存到全局
+        localStorage.setItem('token', data.token);
+        // 请求userInfo
+        await fetchUserInfo().catch((reason) => message.error(reason));
       }
-      console.log(msg);
-      // 如果失败去设置用户错误信息
-      setUserLoginState(msg);
-    } catch (error) {
-      const defaultLoginFailureMessage = '登录失败，请重试！';
-      console.log(error);
-      message.error(defaultLoginFailureMessage);
-    }
-  };
-  const { status, type: loginType } = userLoginState;
+      // 路由到欢迎页面
+      history.replace('/myExam');
+    },
+  });
+  const { Group, Button } = Radio;
+  const [role, setRole] = useState('STUDENT');
+
   return (
     <div className={styles.container}>
       <Helmet>
@@ -104,66 +102,69 @@ const Login: React.FC = () => {
           }}
           logo={<img alt="logo" src="/logo.svg" />}
           title="在线考试系统"
-          subTitle="欢迎使用 在线考试系统"
+          subTitle="欢迎使用在线考试系统"
           initialValues={{
             autoLogin: true,
           }}
           onFinish={async (values) => {
+            values['role'] = role;
             await handleSubmit(values as API.LoginParams);
           }}
         >
-          <Tabs
-            activeKey={type}
-            onChange={setType}
-            centered
-            items={[
-              {
-                key: 'account',
-                label: '账户密码登录',
-              },
-            ]}
-          />
-
-          {status === 'error' && loginType === 'account' && (
-            <LoginMessage content="账户或密码错误（admin/ant.design）" />
-          )}
-          {type === 'account' && (
-            <>
-              <ProFormText
-                name="username"
-                fieldProps={{
-                  size: 'large',
-                  prefix: <UserOutlined />,
-                }}
-                placeholder="admin/user"
-                rules={[
-                  {
-                    required: true,
-                    message: '用户名是必填项！',
-                  },
-                ]}
-              />
-              <ProFormText.Password
-                name="password"
-                fieldProps={{
-                  size: 'large',
-                  prefix: <LockOutlined />,
-                }}
-                placeholder="ant.design"
-                rules={[
-                  {
-                    required: true,
-                    message: '密码是必填项！',
-                  },
-                ]}
-              />
-            </>
-          )}
+          <>
+            <ProFormText
+              name="username"
+              fieldProps={{
+                size: 'large',
+                prefix: <UserOutlined />,
+              }}
+              placeholder="super"
+              initialValue={'super'}
+              rules={[
+                {
+                  required: true,
+                  message: '用户名是必填项！',
+                },
+              ]}
+            />
+            <ProFormText.Password
+              name="password"
+              initialValue={'admin123'}
+              fieldProps={{
+                size: 'large',
+                prefix: <LockOutlined />,
+              }}
+              placeholder="admin123"
+              rules={[
+                {
+                  required: true,
+                  message: '密码是必填项！',
+                },
+              ]}
+            />
+          </>
           <div
             style={{
               marginBottom: 24,
             }}
           >
+            <div className={style.roleContent}>
+              <span>选择登录身份:</span>
+              <Group
+                className={style.group}
+                name="role"
+                buttonStyle={'solid'}
+                defaultValue={Object.entries(ROlE)[0][0]}
+                onChange={(e) => setRole(e.target.value)}
+              >
+                {Object.entries(ROlE).map(([key, value]) => (
+                  <Button className={style.button} key={key} value={key}>
+                    {value}
+                  </Button>
+                ))}
+              </Group>
+            </div>
+
             <ProFormCheckbox noStyle name="autoLogin">
               自动登录
             </ProFormCheckbox>

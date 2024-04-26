@@ -3,6 +3,7 @@
     "jsx": "react-jsx",
     "emitDecoratorMetadata": true,
     "experimentalDecorators": true,
+    "target": "ES5",
     "baseUrl": ".",
     "paths": {
       "@/*": ["./src/*"]

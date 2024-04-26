@@ -60,6 +60,7 @@ if (pwa) {
     notification.open({
       btn,
       key,
+      message: '测试',
       onClose: async () => null,
     });
   });

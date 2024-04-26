@@ -1,15 +1,23 @@
 {
+  "ts-node": {
+    "compilerOptions": {
+      "experimentalDecorators": true
+    }
+  },
   "compilerOptions": {
-    "target": "esnext",
+    "target": "ES5",
     "module": "esnext",
     "moduleResolution": "node",
     "importHelpers": true,
+    "noUnusedLocals": false,
+    "noUnusedParameters": false,
     "jsx": "preserve",
     "esModuleInterop": true,
     "sourceMap": true,
     "baseUrl": "./",
     "skipLibCheck": true,
     "experimentalDecorators": true,
+    "emitDecoratorMetadata": true,
     "forceConsistentCasingInFileNames": false,
     "strict": true,
     "resolveJsonModule": true,
@@ -20,5 +28,8 @@
       "@@test/*": ["./src/.umi-test/*"]
     }
   },
-  "include": ["./**/*.d.ts", "./**/*.ts", "./**/*.tsx"]
+  "exclude": ["./node_modules"]
+//  "include": ["./**/*.d.ts", "./**/*.ts", "./**/*.tsx"]
+
+
 }

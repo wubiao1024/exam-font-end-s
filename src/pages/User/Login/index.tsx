@@ -9,7 +9,7 @@ import { Radio, message } from 'antd';
 import { createStyles } from 'antd-style';
 import React, { useState } from 'react';
 import { flushSync } from 'react-dom';
-import { useModel } from 'umi';
+import { useModel } from '@@/plugin-model';
 import style from './index.module.less';
 const useStyles = createStyles(({ token }) => {
   return {
@@ -59,7 +59,7 @@ const Login: React.FC = () => {
     if (userInfo) {
       setUserInfo(userInfo as any);
       flushSync(() => {
-        setInitialState((s) => ({
+        setInitialState((s: any) => ({
           ...s,
           currentUser: userInfo,
         }));
@@ -69,8 +69,8 @@ const Login: React.FC = () => {
 
   const { data: res, run: handleSubmit } = useRequest(UserApi.login, {
     manual: true,
-    async onSuccess(data) {
-      if (!!data.token) {
+    async onSuccess(data: any) {
+      if (data?.token) {
         message.success('登录成功');
         // 将token 存到全局
         localStorage.setItem('token', data.token);
@@ -78,7 +78,7 @@ const Login: React.FC = () => {
         await fetchUserInfo().catch((reason) => message.error(reason));
       }
       // 路由到欢迎页面
-      history.replace('/myExam');
+      history.replace('/Student/myExam');
     },
   });
   const { Group, Button } = Radio;
@@ -108,7 +108,7 @@ const Login: React.FC = () => {
           }}
           onFinish={async (values) => {
             values['role'] = role;
-            await handleSubmit(values as API.LoginParams);
+            await handleSubmit(values as any);
           }}
         >
           <>

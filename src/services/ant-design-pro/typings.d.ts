@@ -4,19 +4,21 @@
 declare namespace API {
   type CurrentUser = {
     realName?: string;
-    name?: string;
+    username?: string;
+    className?: string;
     avatar?: string;
-    userid?: string;
+    id?: string;
     email?: string;
-    signature?: string;
-    title?: string;
-    group?: string;
-    notifyCount?: number;
-    unreadCount?: number;
-    country?: string;
-    access?: string;
-    address?: string;
-    phone?: string;
+    gender?: 0 | 1;
+    classId?: number;
+    nickname?: string;
+    contactInfo?: string;
+    roleIds?: string[];
+    roleNames?: {
+      roleName: 'STUDENT' | 'TEACHER' | 'ADMIN';
+      id: number;
+      description?: string;
+    }[];
   };
 
   type ResultType = {

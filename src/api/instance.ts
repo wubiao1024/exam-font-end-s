@@ -23,7 +23,7 @@ export const responseInterceptorFulfilled = (response: AxiosResponse<any, any>) 
   if (!success) {
     message.error(info);
   }
-  // 返回data
+  // 返回data,统一错误处理，同时剥离出相应体的 data 字段
   return response.data;
 };
 

@@ -1,0 +1,65 @@
+// 背景图片，新增
+
+.container{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(214, 213, 202, 0.99);
+  border-radius: 10px;
+
+  & > *{
+    margin: 5px;
+  }
+
+  .deleteIcon{
+    position: absolute;
+    right: 5px;
+    top: 5px;
+    font-size: 20px;
+    //background-color: black;
+    color: red;
+  }
+  .bottomButtons{
+    width: 80%;
+    display: flex;
+    position: absolute;
+    bottom: 10px;
+    justify-content: space-around;
+    .item{
+      width: fit-content;
+      line-height: 20px;
+      vertical-align: center;
+      font-size: 13px;
+      padding: 2px 8px;
+    }
+    .editButton{
+      // success color
+      background-color: #60e17d;
+      color: #000;
+    }
+    .previewButton{
+      background-color: #007bff;
+      color: #fff;
+    }
+  }
+  .title{
+      width: 90%;
+      line-height: 28px;
+      vertical-align: middle;
+      text-align: center;
+      font: bold 23px Arial, sans-serif;
+  }
+  .info{
+    .subjectName {
+      margin: 10px 0;
+    }
+    .label{
+      font-size: 18px;
+    }
+    .content{
+      font-size: 17px;
+    }
+  }
+}

@@ -12,6 +12,7 @@
     "noUnusedLocals": false,
     "noUnusedParameters": false,
     "jsx": "preserve",
+    "allowImportingTsExtension": true,
     "esModuleInterop": true,
     "sourceMap": true,
     "baseUrl": "./",
@@ -22,6 +23,7 @@
     "strict": true,
     "resolveJsonModule": true,
     "allowSyntheticDefaultImports": true,
+    "useUnknownInCatchVariables": false,
     "paths": {
       "@/*": ["./src/*"],
       "@@/*": ["./src/.umi/*"],

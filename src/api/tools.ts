@@ -4,20 +4,23 @@ import {
   responseInterceptorFulfilled,
   responseInterceptorReject,
 } from '@/api/instance';
+
+import {requestType,RequestDataEmmit} from './const'
 import { AxiosRequestConfig, Method } from 'axios';
-export type RequestEmitType = (config: {
+/*export interface requestType {
   path: string;
   method: Method;
   data?: any;
   options?: AxiosRequestConfig;
-}) => Promise<any>;
+}
 
-export type RequestDataEmmit<rerType, ResType> = (
-  data?: rerType,
+export type RequestDataEmmit<ReqType, ResType> = (
+  data?: ReqType,
   option?: AxiosRequestConfig,
-) => Promise<ResType>;
+) => Promise<ResType>;*/
+
 // 添加拦截器
-instance.interceptors.request.use(requestInterceptor);
+instance.interceptors.request.use(requestInterceptor as any);
 instance.interceptors.response.use(responseInterceptorFulfilled, responseInterceptorReject);
 
 // 替换路径参数占位符
@@ -31,7 +34,10 @@ const formatPath = (path: string, data?: any): string => {
   const trimmedPath = path.endsWith('/') ? path.slice(0, -1) : path;
   return replacePathParams(trimmedPath, data);
 };
-export const RequestEmit: RequestEmitType = async ({ path, data, method, options }) => {
+
+// 请求参数必须带有指定的字段
+export const RequestEmit = async <reqType extends requestType,resType> (requestConfig:reqType):Promise< resType> => {
+  const {path,method,data,options} = requestConfig
   const config: AxiosRequestConfig = {
     url: formatPath(path, data),
     [method === 'get' ? 'params' : 'data']: data,

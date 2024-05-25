@@ -1,5 +1,5 @@
 import UserApi from '@/api/userApi';
-import { LogoutOutlined, SettingOutlined, UserOutlined } from '@ant-design/icons';
+import { LogoutOutlined, UserOutlined } from '@ant-design/icons';
 import { history, useModel } from '@umijs/max';
 import { Spin } from 'antd';
 import type { MenuInfo } from 'rc-menu/lib/interface';
@@ -14,8 +14,8 @@ export type GlobalHeaderRightProps = {
 };
 
 export const AvatarName = () => {
-  const { userInfo } = useModel('userInfo');
-  return <span className="anticon">{userInfo?.username}</span>;
+  const { initialState } = useModel('@@initialState');
+  return <span className="anticon">欢迎您：{initialState?.currentUser?.realName}</span>;
 };
 
 export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, children }) => {
@@ -30,7 +30,7 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
     if (pathname !== '/user/login') {
       history.replace('/user/login');
     }
-    //清除token 
+    //清除token
     localStorage.removeItem('token');
   };
 
@@ -40,11 +40,10 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
     (event: MenuInfo) => {
       const { key } = event;
       if (key === 'logout') {
-        
         loginOut();
         flushSync(() => {
-            setInitialState((s) => ({ ...s, currentUser: undefined }));
-          });
+          setInitialState((s) => ({ ...s, currentUser: undefined }));
+        });
         return;
       }
       // 跳转到对应页面的路由
@@ -71,6 +70,8 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
 
   const { currentUser } = initialState;
 
+  // TODO CURRENT USER
+
   if (!currentUser || !currentUser.realName) {
     return loading;
   }
@@ -82,11 +83,6 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
             key: 'center',
             icon: <UserOutlined />,
             label: '个人中心',
-          },
-          {
-            key: 'settings',
-            icon: <SettingOutlined />,
-            label: '个人设置',
           },
           {
             type: 'divider' as const,

@@ -1,0 +1,38 @@
+// 背景图片，新增
+
+.container{
+  position: relative;
+  display: flex;
+  flex-direction: column;
+  justify-content: center;
+  align-items: center;
+  background-color: rgba(214, 213, 202, 0.99);
+  border-radius: 10px;
+
+  .startBtn{
+    margin-top: 15px;
+  }
+
+  & > *{
+    margin: 5px;
+  }
+
+  .title{
+    width: 90%;
+    line-height: 28px;
+    vertical-align: middle;
+    text-align: center;
+    font: bold 23px Arial, sans-serif;
+  }
+  .info{
+    &>* {
+      margin: 10px 0;
+    }
+    .label{
+      font-size: 18px;
+    }
+    .content{
+      font-size: 17px;
+    }
+  }
+}

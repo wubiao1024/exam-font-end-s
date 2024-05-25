@@ -8,5 +8,6 @@ module.exports = {
     'no-unused-vars': 0,
     '@typescript-eslint/no-unused-vars': 0,
     '@typescript-eslint/ban-types': [0, { types: { Object: false } }],
+    '@typescript-eslint/no-unused-expressions': 0,
   },
 };

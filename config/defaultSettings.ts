@@ -18,7 +18,7 @@ const Settings: ProLayoutProps & {
   title: '在线考试系统',
   pwa: true,
   logo: 'http://120.77.171.115/assets/svg/logo.svg',
-  iconfontUrl: '//at.alicdn.com/t/c/font_4447857_zlosouooo1.js',
+  iconfontUrl: '//at.alicdn.com/t/c/font_4447857_7x25luqqzc2.js',
   token: {
     // 参见ts声明，demo 见文档，通过token 修改样式
     //https://procomponents.ant.design/components/layout#%E9%80%9A%E8%BF%87-token-%E4%BF%AE%E6%94%B9%E6%A0%B7%E5%BC%8F

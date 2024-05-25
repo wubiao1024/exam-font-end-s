@@ -1,0 +1,45 @@
+.container{
+  .sider{
+    overflow: auto;
+    height: 100vh;
+    position: fixed;
+    border-top: 0.5px solid black;
+    border-right: 0.5px solid black;
+    left: 0;
+    top: 0;
+    bottom: 0;
+    .top{
+      text-align: center;
+      margin: 10px auto;
+
+    }
+  }
+  .right{
+    margin-left: 300px;
+    min-width: 300px;
+    .header{
+      z-index: 999;
+      height: 80px;
+      position: fixed;
+      top: 0;
+      left: 300px;
+      right: 0;
+      border-top:0.5px solid black;
+      border-bottom:0.5px solid black;
+      // 背景半透明
+      background-color: rgba(255, 255, 255,0.1);
+      backdrop-filter: blur(10px);
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+
+    }
+    .content{
+      // 顶部留下top的距离
+      margin: 86px 6px 6px;
+    }
+
+  }
+
+}
+

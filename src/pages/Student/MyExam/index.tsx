@@ -36,6 +36,11 @@ export default () => {
             key={item?.id}
           />
         ))}
+        {!exams?.length && (
+          <div className={styles.empty}>
+            <p>暂无考试</p>
+          </div>
+        )}
       </div>
     </div>
   );

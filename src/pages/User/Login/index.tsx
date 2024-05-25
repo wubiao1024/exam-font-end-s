@@ -78,7 +78,7 @@ const Login: React.FC = () => {
         await fetchUserInfo().catch((reason) => message.error(reason));
       }
       // 路由到欢迎页面
-      history.replace('/Student/myExam');
+      history.replace('/user/center');
     },
   });
   const { Group, Button } = Radio;

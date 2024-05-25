@@ -47,7 +47,7 @@ export const AvatarDropdown: React.FC<GlobalHeaderRightProps> = ({ menu, childre
         return;
       }
       // 跳转到对应页面的路由
-      history.push(`/account/${key}`);
+      history.push(`/user/${key}`);
     },
     [setInitialState],
   );

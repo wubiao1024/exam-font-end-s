@@ -6,6 +6,7 @@ declare namespace API {
     realName?: string;
     username?: string;
     className?: string;
+    currentRole?: 'STUDENT' | 'TEACHER' | 'ADMIN';
     avatar?: string;
     id?: string;
     email?: string;
